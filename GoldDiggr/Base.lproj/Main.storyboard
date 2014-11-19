@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="T3B-Yv-IzA">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <scenes>
+        <!--Item 2-->
+        <scene sceneID="ywS-P4-WAo">
+            <objects>
+                <viewController id="ab9-4j-P8L" customClass="EconGoodViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="35O-al-an1"/>
+                        <viewControllerLayoutGuide type="bottom" id="4KO-s3-9A2"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="JEf-1u-VES">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jb5-fr-4lv">
+                                <rect key="frame" x="16" y="75" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="checkTextField:" destination="ab9-4j-P8L" eventType="valueChanged" id="FxL-UG-76P"/>
+                                    <action selector="checkTextField:" destination="ab9-4j-P8L" eventType="editingDidEnd" id="oyb-qD-dKJ"/>
+                                    <action selector="checkTextField:" destination="ab9-4j-P8L" eventType="editingDidEndOnExit" id="xn9-Mq-QKQ"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vdI-8p-reS">
+                                <rect key="frame" x="164" y="75" width="39" height="30"/>
+                                <state key="normal" title="Good">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="economicGoodButtonPressed:" destination="ab9-4j-P8L" eventType="touchUpInside" id="P7z-S2-9Bu"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="GoldDiggr" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EVG-z2-8So">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
+                                <color key="backgroundColor" red="0.1097404258" green="1" blue="0.16449239160000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Copperplate-Bold" family="Copperplate" pointSize="35"/>
+                                <color key="textColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item 2" id="ICz-Yw-fWe"/>
+                    <connections>
+                        <outlet property="economicGoodButton" destination="vdI-8p-reS" id="4Wq-Gm-Um9"/>
+                        <outlet property="usdTextField" destination="jb5-fr-4lv" id="uzI-Dy-dy3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eig-X2-SKS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="415" y="564"/>
+        </scene>
+        <!--Item 1-->
+        <scene sceneID="TNe-xu-cjg">
+            <objects>
+                <viewController id="uHq-V5-Gei" customClass="CurrencyViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="YAn-67-eQh"/>
+                        <viewControllerLayoutGuide type="bottom" id="14m-rF-koP"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gIS-OR-EjD">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rFh-qR-w3p">
+                                <rect key="frame" x="16" y="74" width="170" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="editingBeganInTextField:" destination="uHq-V5-Gei" eventType="editingDidEnd" id="QkV-u1-TcL"/>
+                                    <action selector="editingBeganInTextField:" destination="uHq-V5-Gei" eventType="editingChanged" id="Zqu-hW-kxa"/>
+                                    <action selector="editingBeganInTextField:" destination="uHq-V5-Gei" eventType="editingDidBegin" id="aP1-2d-NyQ"/>
+                                </connections>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YlS-8l-tKk">
+                                <rect key="frame" x="16" y="123" width="170" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="editingBeganInTextField:" destination="uHq-V5-Gei" eventType="editingDidBegin" id="Gxg-1Q-DZj"/>
+                                    <action selector="editingBeganInTextField:" destination="uHq-V5-Gei" eventType="editingDidEnd" id="bcZ-43-iHJ"/>
+                                    <action selector="editingBeganInTextField:" destination="uHq-V5-Gei" eventType="editingChanged" id="iaP-OA-ZLE"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qWg-hn-jIG">
+                                <rect key="frame" x="135" y="123" width="67" height="30"/>
+                                <state key="normal" title="X">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="currencyResetButtonPressed:" destination="uHq-V5-Gei" eventType="touchUpInside" id="HGr-du-bA1"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="USD ($)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PmB-pW-LyH">
+                                <rect key="frame" x="216" y="74" width="59" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V27-pU-mka">
+                                <rect key="frame" x="95" y="161" width="55" height="30"/>
+                                <state key="normal" title="Convert">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="convertButtonPressed:" destination="uHq-V5-Gei" eventType="touchUpInside" id="IH1-lc-1Ab"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T8x-Pi-DQJ">
+                                <rect key="frame" x="194" y="128" width="102" height="30"/>
+                                <state key="normal" title="Currency">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="currencyButtonHit:" destination="uHq-V5-Gei" eventType="touchUpInside" id="Des-A7-sdi"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A9c-17-v9S">
+                                <rect key="frame" x="135" y="73" width="67" height="30"/>
+                                <state key="normal" title="X">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="resetButtonPressed:" destination="uHq-V5-Gei" eventType="touchUpInside" id="uW1-wm-jeU"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="GoldDiggr" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9ch-uK-CQV">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
+                                <color key="backgroundColor" red="0.1097404258" green="1" blue="0.16449239160000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Copperplate-Bold" family="Copperplate" pointSize="35"/>
+                                <color key="textColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item 1" id="sn0-7J-0db"/>
+                    <connections>
+                        <outlet property="currencyButton" destination="T8x-Pi-DQJ" id="rDe-A8-t96"/>
+                        <outlet property="currencyTextField" destination="YlS-8l-tKk" id="CQF-Jb-cT7"/>
+                        <outlet property="usdTextField" destination="rFh-qR-w3p" id="qi9-Fy-XfG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MJJ-pQ-WzZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="415" y="-66"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="LdB-7A-HQl">
+            <objects>
+                <tabBarController id="T3B-Yv-IzA" sceneMemberID="viewController">
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="kd5-Kw-GJZ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="uHq-V5-Gei" kind="relationship" relationship="viewControllers" id="EdD-yV-lKE"/>
+                        <segue destination="ab9-4j-P8L" kind="relationship" relationship="viewControllers" id="JEA-gR-iGD"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pfD-vY-DBu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-125" y="249"/>
+        </scene>
+    </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
