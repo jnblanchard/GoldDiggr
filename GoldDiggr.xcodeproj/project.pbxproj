@@ -22,6 +22,7 @@
 		A524C2AF1A1C2D8A00306AD8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A524C2AE1A1C2D8A00306AD8 /* QuartzCore.framework */; };
 		A524C2B11A1C2D9100306AD8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A524C2B01A1C2D9100306AD8 /* OpenGLES.framework */; };
 		A524C2B31A1C2D9A00306AD8 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A524C2B21A1C2D9A00306AD8 /* CoreText.framework */; };
+		A5C704FA1A1C57DB009D8F36 /* Data.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C704F91A1C57DB009D8F36 /* Data.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,8 @@
 		A524C2AE1A1C2D8A00306AD8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A524C2B01A1C2D9100306AD8 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		A524C2B21A1C2D9A00306AD8 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		A5C704F81A1C57DB009D8F36 /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
+		A5C704F91A1C57DB009D8F36 /* Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Data.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +119,8 @@
 				A524C2A31A1BFE2E00306AD8 /* CurrencyViewController.m */,
 				A524C2A51A1BFE5600306AD8 /* EconGoodViewController.h */,
 				A524C2A61A1BFE5600306AD8 /* EconGoodViewController.m */,
+				A5C704F81A1C57DB009D8F36 /* Data.h */,
+				A5C704F91A1C57DB009D8F36 /* Data.m */,
 				A524C2861A1BFDF600306AD8 /* Main.storyboard */,
 				A524C2891A1BFDF600306AD8 /* Images.xcassets */,
 				A524C28B1A1BFDF600306AD8 /* LaunchScreen.xib */,
@@ -256,6 +261,7 @@
 				A524C2A41A1BFE2E00306AD8 /* CurrencyViewController.m in Sources */,
 				A524C2A71A1BFE5600306AD8 /* EconGoodViewController.m in Sources */,
 				A524C27C1A1BFDF600306AD8 /* main.m in Sources */,
+				A5C704FA1A1C57DB009D8F36 /* Data.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,6 +460,7 @@
 				A524C29E1A1BFDF700306AD8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A524C29F1A1BFDF700306AD8 /* Build configuration list for PBXNativeTarget "GoldDiggrTests" */ = {
 			isa = XCConfigurationList;
@@ -462,6 +469,7 @@
 				A524C2A11A1BFDF700306AD8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

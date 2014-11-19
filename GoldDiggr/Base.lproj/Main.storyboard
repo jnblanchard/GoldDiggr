@@ -68,7 +68,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rFh-qR-w3p">
-                                <rect key="frame" x="16" y="74" width="170" height="30"/>
+                                <rect key="frame" x="16" y="74" width="123" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
@@ -78,7 +78,7 @@
                                 </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YlS-8l-tKk">
-                                <rect key="frame" x="16" y="123" width="170" height="30"/>
+                                <rect key="frame" x="16" y="123" width="123" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
@@ -88,7 +88,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qWg-hn-jIG">
-                                <rect key="frame" x="135" y="123" width="67" height="30"/>
+                                <rect key="frame" x="94" y="123" width="51" height="30"/>
                                 <state key="normal" title="X">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -97,22 +97,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="USD ($)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PmB-pW-LyH">
-                                <rect key="frame" x="216" y="74" width="59" height="21"/>
+                                <rect key="frame" x="204" y="78" width="59" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V27-pU-mka">
-                                <rect key="frame" x="95" y="161" width="55" height="30"/>
-                                <state key="normal" title="Convert">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="convertButtonPressed:" destination="uHq-V5-Gei" eventType="touchUpInside" id="IH1-lc-1Ab"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T8x-Pi-DQJ">
-                                <rect key="frame" x="194" y="128" width="102" height="30"/>
+                                <rect key="frame" x="147" y="123" width="173" height="30"/>
                                 <state key="normal" title="Currency">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -121,7 +112,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A9c-17-v9S">
-                                <rect key="frame" x="135" y="73" width="67" height="30"/>
+                                <rect key="frame" x="86" y="74" width="67" height="30"/>
                                 <state key="normal" title="X">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -136,11 +127,25 @@
                                 <color key="textColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="nwN-PX-TtB">
+                                <rect key="frame" x="145" y="228" width="37" height="37"/>
+                                <color key="color" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V27-pU-mka">
+                                <rect key="frame" x="50" y="154" width="55" height="30"/>
+                                <state key="normal" title="Convert">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="convertButtonPressed:" destination="uHq-V5-Gei" eventType="touchUpInside" id="IH1-lc-1Ab"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item 1" id="sn0-7J-0db"/>
                     <connections>
+                        <outlet property="actIndicator" destination="nwN-PX-TtB" id="V7b-zZ-81v"/>
                         <outlet property="currencyButton" destination="T8x-Pi-DQJ" id="rDe-A8-t96"/>
                         <outlet property="currencyTextField" destination="YlS-8l-tKk" id="CQF-Jb-cT7"/>
                         <outlet property="usdTextField" destination="rFh-qR-w3p" id="qi9-Fy-XfG"/>

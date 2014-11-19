@@ -7,6 +7,7 @@
 //
 
 #import "CurrencyViewController.h"
+#import "Data.h"
 #import <ShinobiCharts/ShinobiCharts.h>
 
 @interface CurrencyViewController () <UIPickerViewDataSource, UIPickerViewDelegate, SChartDatasource, SChartDelegate>
@@ -29,21 +30,28 @@
 @property NSString* lastUsdString;
 @property NSString* lastCurrencyString;
 @property ShinobiChart* chart;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *actIndicator;
 @property ShinobiChart* chartTwo;
 @end
 
 @implementation CurrencyViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.lastCurrencyString = @"";
     self.lastUsdString = @"";
     self.dict = @{@"Canadaian Dollar": @"DEXCAUS", @"Chinese Yuan": @"DEXCHUS", @"Denish Krone": @"DEXDNUS", @"Euro": @"DEXUSEU", @"Hong Kong Dollar": @"DEXHKUS", @"Indian Rupee": @"DEXINUS", @"Japanese Yen": @"DEXJPUS", @"Malaysian Ringgit": @"DEXMAUS", @"Mexican Peso": @"DEXMXUS", @"New Taiwan Dollar": @"DEXTAUS", @"New Zealand Dollar": @"DEXUSNZ", @"Norwegian Krone": @"DEXNOUS", @"Singapore Dollar": @"DEXSIUS", @"South African Rand": @"DEXSFUS", @"South Korean Won": @"DEXKOUS", @"Sri Lankan Rupee": @"DEXSLUS", @"Swedish Krona": @"DEXSDUS", @"Swiss Franc": @"DEXSZUS", @"Thai Baht": @"DEXTHUS", @"Venezuelan Bolivar": @"DEXVZUS"};
     self.currencies = [self.dict allKeys];
+    NSLog(@"%@", self.currencies);
     self.exchangeRate = 2;
-    self.currencies = @[@"MP", @"GMY", @"Euro", @"POL"];
     //    [self loadJSON];
 
+    [self makeChart:[self setChartTitle:self.currencyButton.titleLabel.text]];
+}
+
+- (void) makeChart:(NSString*) title
+{
     NSDateComponents *comps = [[NSDateComponents alloc] init];
     [comps setDay:1];
     [comps setMonth:1];
@@ -56,29 +64,34 @@
     [temp setYear:2014];
     self.maxDate = [[NSCalendar currentCalendar] dateFromComponents:temp];
 
-        self.chart = [[ShinobiChart alloc] initWithFrame:CGRectInset(CGRectMake(0, 185, self.view.frame.size.width, self.view.frame.size.height - 230), 5, 5)];
-        self.chart.title = @"Number of pesos in $1 USD";
-        [self.chart applyTheme:[SChartLightTheme new]];
-        SChartTitlePosition pos = SChartTitlePositionCenter;
-        [self.chart setTitlePosition:pos];
-    
-        self.chart.licenseKey = @"hhrISctCkSMYEI5MjAxNDEyMTdqbmJsYW5jaGFyZEBtYWMuY29t0Jdf/vFaiXAaIF2H91a9+UT3uIrLZz/nVXe6I9A3C4Nh52uJ05Alb102w//Ce35VnqvkSk+Es6LF522O4bIgBK46t0HzUYZ0gygmnXrnADJSDnQVoGvgUrkqNfZ142rqiW7MKo57wbrndiTYuW205cQW157I=BQxSUisl3BaWf/7myRmmlIjRnMU2cA7q+/03ZX9wdj30RzapYANf51ee3Pi8m2rVW6aD7t6Hi4Qy5vv9xpaQYXF5T7XzsafhzS3hbBokp36BoJZg8IrceBj742nQajYyV7trx5GIw9jy/V6r0bvctKYwTim7Kzq+YPWGMtqtQoU=PFJTQUtleVZhbHVlPjxNb2R1bHVzPnh6YlRrc2dYWWJvQUh5VGR6dkNzQXUrUVAxQnM5b2VrZUxxZVdacnRFbUx3OHZlWStBK3pteXg4NGpJbFkzT2hGdlNYbHZDSjlKVGZQTTF4S2ZweWZBVXBGeXgxRnVBMThOcDNETUxXR1JJbTJ6WXA3a1YyMEdYZGU3RnJyTHZjdGhIbW1BZ21PTTdwMFBsNWlSKzNVMDg5M1N4b2hCZlJ5RHdEeE9vdDNlMD08L01vZHVsdXM+PEV4cG9uZW50PkFRQUI8L0V4cG9uZW50PjwvUlNBS2V5VmFsdWU+"; // TODO: add your trial licence key here!
-        self.chart.autoresizingMask = ~UIViewAutoresizingNone;
-    
-        SChartDateRange* dateRange = [[SChartDateRange alloc]initWithDateMinimum:self.minDate andDateMaximum:self.maxDate];
-        SChartDateTimeAxis* xAxis = [[SChartDateTimeAxis alloc]initWithRange:dateRange];
-        self.chart.xAxis = xAxis;
-    
-    
-    
-        SChartNumberRange* rangeY = [[SChartNumberRange alloc]initWithMinimum:[NSNumber numberWithInt:1] andMaximum:[NSNumber numberWithInt:25]];
-        SChartNumberAxis *yAxis = [[SChartNumberAxis alloc] initWithRange:rangeY];
-        self.chart.yAxis = yAxis;
-    
-        [self.view addSubview:self.chart];
-    
-        self.chart.delegate = self;
-        self.chart.datasource = self;
+    self.chart = [[ShinobiChart alloc] initWithFrame:CGRectInset(CGRectMake(0, 185, self.view.frame.size.width, self.view.frame.size.height - 230), 5, 5)];
+    [self.chart setTitle:title];
+    [self.chart applyTheme:[SChartLightTheme new]];
+    SChartTitlePosition pos = SChartTitlePositionCenter;
+    [self.chart setTitlePosition:pos];
+
+    self.chart.licenseKey = @"hhrISctCkSMYEI5MjAxNDEyMTdqbmJsYW5jaGFyZEBtYWMuY29t0Jdf/vFaiXAaIF2H91a9+UT3uIrLZz/nVXe6I9A3C4Nh52uJ05Alb102w//Ce35VnqvkSk+Es6LF522O4bIgBK46t0HzUYZ0gygmnXrnADJSDnQVoGvgUrkqNfZ142rqiW7MKo57wbrndiTYuW205cQW157I=BQxSUisl3BaWf/7myRmmlIjRnMU2cA7q+/03ZX9wdj30RzapYANf51ee3Pi8m2rVW6aD7t6Hi4Qy5vv9xpaQYXF5T7XzsafhzS3hbBokp36BoJZg8IrceBj742nQajYyV7trx5GIw9jy/V6r0bvctKYwTim7Kzq+YPWGMtqtQoU=PFJTQUtleVZhbHVlPjxNb2R1bHVzPnh6YlRrc2dYWWJvQUh5VGR6dkNzQXUrUVAxQnM5b2VrZUxxZVdacnRFbUx3OHZlWStBK3pteXg4NGpJbFkzT2hGdlNYbHZDSjlKVGZQTTF4S2ZweWZBVXBGeXgxRnVBMThOcDNETUxXR1JJbTJ6WXA3a1YyMEdYZGU3RnJyTHZjdGhIbW1BZ21PTTdwMFBsNWlSKzNVMDg5M1N4b2hCZlJ5RHdEeE9vdDNlMD08L01vZHVsdXM+PEV4cG9uZW50PkFRQUI8L0V4cG9uZW50PjwvUlNBS2V5VmFsdWU+"; // TODO: add your trial licence key here!
+    self.chart.autoresizingMask = ~UIViewAutoresizingNone;
+
+    SChartDateRange* dateRange = [[SChartDateRange alloc]initWithDateMinimum:self.minDate andDateMaximum:self.maxDate];
+    SChartDateTimeAxis* xAxis = [[SChartDateTimeAxis alloc]initWithRange:dateRange];
+    self.chart.xAxis = xAxis;
+
+
+
+    SChartNumberRange* rangeY = [[SChartNumberRange alloc]initWithMinimum:[NSNumber numberWithInt:1] andMaximum:[NSNumber numberWithInt:25]];
+    SChartNumberAxis *yAxis = [[SChartNumberAxis alloc] initWithRange:rangeY];
+    self.chart.yAxis = yAxis;
+
+    [self.view addSubview:self.chart];
+
+    self.chart.delegate = self;
+    self.chart.datasource = self;
+}
+
+- (NSString*) setChartTitle:(NSString*)input
+{
+    return [NSString stringWithFormat:@"# of %@s in $1 USD", input];
 }
 
 -(NSInteger)sChart:(ShinobiChart *)chart numberOfDataPointsForSeriesAtIndex:(NSInteger)seriesIndex
@@ -103,8 +116,8 @@
     pointStyle.color = [UIColor greenColor];
     pointStyle.colorBelowBaseline = [UIColor redColor];
     pointStyle.showPoints = YES;
-    [pointStyle setRadius:[NSNumber numberWithInt:10]];
-    [pointStyle setInnerRadius:[NSNumber numberWithInt:6]];
+    [pointStyle setRadius:[NSNumber numberWithInt:3]];
+    [pointStyle setInnerRadius:[NSNumber numberWithInt:1]];
     style.pointStyle = pointStyle;
     [style setLineColor:[UIColor greenColor]];
     [style setLineColorBelowBaseline:[UIColor redColor]];
@@ -125,10 +138,10 @@
 
 
     // both functions share the same x-values
-    datapoint.xValue = temp;
+    datapoint.xValue = temp; // date
 
     // compute the y-value for each series
-    datapoint.yValue = [NSNumber numberWithInt:dataIndex+2];
+    datapoint.yValue = [NSNumber numberWithInt:dataIndex+2]; // price
 
     return datapoint;
 }
@@ -144,43 +157,57 @@
 
 - (NSString*) makeJSONRequestString
 {
-    return [NSString stringWithFormat:@"http://www.quandl.com/api/v1/datasets/FRED/%@", [self.dict objectForKey:self.currencyButton.titleLabel.text]];
+    return [NSString stringWithFormat:@"http://www.quandl.com/api/v1/datasets/FRED/%@?%@", [self.dict objectForKey:self.currencyButton.titleLabel.text], [NSString stringWithFormat:@"auth_token=9unyjxegjy4_K2pG1LLx"]];
 }
 
-- (void) loadJSON
+- (void) loadJSON:(NSString*) apiKey
 {
     self.dicts = [NSMutableDictionary new];
     self.dates = [NSMutableArray new];
     self.toUSDs = [NSMutableArray new];
-    NSURLRequest * request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.quandl.com/api/v1/datasets/FRED/DEXMXUS"]];
+    NSURLRequest * request = [NSURLRequest requestWithURL:[NSURL URLWithString:[self makeJSONRequestString]]];
+    [self.actIndicator startAnimating];
+    [self.view bringSubviewToFront:self.actIndicator];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *rsp, NSData *data, NSError *connectionError)
      {
+
          NSArray* temp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
          NSArray* tempTwo = [temp valueForKey:@"data"];
          [self loadDates:tempTwo];
-         [self displayData:tempTwo];
+         [self.actIndicator stopAnimating];
+         [self.view sendSubviewToBack:self.actIndicator];
+         [self.maskView removeFromSuperview];
+         [self._providerPickerView removeFromSuperview];
+         [self._providerToolbar removeFromSuperview];
      }];
 }
 
-- (NSString*) breakApartTuple:(NSString*) tuple
+- (void) breakApartTuple:(NSArray*) tuple
 {
-    //    Data* data = [Data new];
-    return @"";
+    Data* data = [Data new];
+    NSString* wholeDate = [tuple firstObject];
+    NSLog(@"%@", wholeDate);
+    int day = [wholeDate substringWithRange:NSMakeRange(5, 6)].intValue;
+    int month = [wholeDate substringWithRange:NSMakeRange(7, 9)].intValue;
+    int year = [wholeDate substringToIndex:4].intValue;
+    NSLog(@"day - %d", day);
+    NSLog(@"month - %d", month);
+    NSLog(@"year - %d \n\n", year);
+    NSDateComponents *comps = [[NSDateComponents alloc] init];
+    [comps setDay:1];
+    [comps setMonth:1];
+    [comps setYear:2005];
+    NSDate* temp = [[NSCalendar currentCalendar] dateFromComponents:comps];
+    data.date = temp;
+
 }
 
 - (void) loadDates:(NSArray*) temp
 {
-    for (id tuple in temp) {
+    for (NSArray* tuple in temp) {
         [self breakApartTuple:tuple];
-        NSLog(@"At datapoint %lu, %@,", (unsigned long)[temp indexOfObject:tuple], tuple);
+//        NSLog(@"At datapoint %lu, %@,", (unsigned long)[temp indexOfObject:tuple], tuple);
     }
-}
-
-- (void) displayData:(NSArray*) tempTwo
-{
-    //    NSLog(@"Value of Dolar in (Date , Peso) format - \n\n%@", tempTwo);
-    //    NSLog(@"%@", [tempTwo objectAtIndex:1]);
-    //    NSLog(@"%@", self.dates);
 }
 
 - (IBAction)editingBeganInTextField:(UITextField*)sender
@@ -209,16 +236,12 @@
 
 }
 
-
-
-
 - (IBAction)currencyButtonHit:(id)sender
 {
     [self.usdTextField resignFirstResponder];
     [self createPickerView];
 
 }
-
 
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
@@ -228,6 +251,10 @@
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     [self.currencyButton setTitle:[self.currencies objectAtIndex:row] forState:UIControlStateNormal];
+    [self loadJSON:[self.dict valueForKey:[self.currencies objectAtIndex:row]]];
+    [self.chart removeFromSuperview];
+    [self makeChart:[self setChartTitle:[self.currencies objectAtIndex:row]]];
+    [self.view sendSubviewToBack:self.chart];
 }
 
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
