@@ -32,6 +32,7 @@
 @property NSString* lastCurrencyString;
 @property ShinobiChart* chart;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *actIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *convertButton;
 @property ShinobiChart* chartTwo;
 @property NSString* exchangeCurrency;
 @end
@@ -43,6 +44,14 @@
     [super viewDidLoad];
     self.dataArray = [NSMutableArray new];
     self.dateArray = [NSMutableArray new];
+    self.currencyButton.clipsToBounds = YES;
+    self.currencyButton.layer.cornerRadius = 20;
+    self.currencyButton.layer.borderWidth = 2.0f;
+    self.currencyButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.convertButton.clipsToBounds = YES;
+    self.convertButton.layer.cornerRadius = 10;
+    self.convertButton.layer.borderWidth = 2.0f;
+    self.convertButton.layer.borderColor = [UIColor blackColor].CGColor;
     self.exchangeCurrency = @"Currency";
     self.lastCurrencyString = @"";
     self.lastUsdString = @"";
@@ -52,7 +61,7 @@
     self.exchangeRate = 2;
     //    [self loadJSON];
 
-    [self makeChart:[self setChartTitle:self.currencyButton.titleLabel.text]];
+    [self makeChart:@"Placeholder Dataset"];
 }
 
 - (void) makeChart:(NSString*) title
@@ -68,8 +77,9 @@
     [temp setMonth:12];
     [temp setYear:2014];
     self.maxDate = [[NSCalendar currentCalendar] dateFromComponents:temp];
+    NSLog(@" Max DATE - %@", self.maxDate);
 
-    self.chart = [[ShinobiChart alloc] initWithFrame:CGRectInset(CGRectMake(0, 185, self.view.frame.size.width, self.view.frame.size.height - 230), 5, 5)];
+    self.chart = [[ShinobiChart alloc] initWithFrame:CGRectInset(CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + 69, self.view.frame.size.width, self.view.frame.size.height - 264), 3, 0)];
     [self.chart setTitle:title];
     [self.chart applyTheme:[SChartLightTheme new]];
     SChartTitlePosition pos = SChartTitlePositionCenter;
@@ -88,7 +98,9 @@
         rangeY = [[SChartNumberRange alloc]initWithMinimum:[NSNumber numberWithInt:1] andMaximum:[NSNumber numberWithInt:25]];
         yAxis = [[SChartNumberAxis alloc] initWithRange:rangeY];
     } else {
-        dateRange = [[SChartDateRange alloc]initWithDateMinimum:[self.dateArray objectAtIndex:self.dateArray.count - 1] andDateMaximum:[self.dateArray objectAtIndex:0]];
+        NSString* min = [self.dateArray lastObject];
+        NSString* max = [self.dateArray firstObject];
+        dateRange = [[SChartDateRange alloc]initWithDateMinimum:min andDateMaximum:max];
         xAxis = [[SChartDateTimeAxis alloc]initWithRange:dateRange];
         rangeY = [[SChartNumberRange alloc]initWithMinimum:[NSNumber numberWithInt:1] andMaximum:[NSNumber numberWithInt:150]];
         yAxis = [[SChartNumberAxis alloc] initWithRange:rangeY];
@@ -96,7 +108,8 @@
 
     self.chart.xAxis = xAxis;
     self.chart.yAxis = yAxis;
-
+    self.chart.xAxis.titleLabel.text = @"Year";
+    self.chart.yAxis.titleLabel.text = [NSString stringWithFormat:@"# of %@s in $1USD", self.exchangeCurrency];
     [self.view addSubview:self.chart];
 
     self.chart.delegate = self;
@@ -106,7 +119,7 @@
 - (NSString*) setChartTitle:(NSString*)input
 {
     self.exchangeCurrency = input;
-    return [NSString stringWithFormat:@"# of %@s in $1 USD", input];
+    return [NSString stringWithFormat:@"Historical Price of %@", input];
 }
 
 -(NSInteger)sChart:(ShinobiChart *)chart numberOfDataPointsForSeriesAtIndex:(NSInteger)seriesIndex
@@ -185,7 +198,6 @@
     self.dicts = [NSMutableDictionary new];
     self.dates = [NSMutableArray new];
     self.toUSDs = [NSMutableArray new];
-    NSLog(@"here1");
     NSURLRequest * request = [NSURLRequest requestWithURL:[NSURL URLWithString:[self makeJSONRequestString]]];
     [self.actIndicator startAnimating];
     [self.view bringSubviewToFront:self.actIndicator];
@@ -197,8 +209,6 @@
          if ([data isEqual:nil]) {
              NSLog(@"No data exists");
          }
-         NSLog(@"%@", rsp);
-         NSLog(@"here JSON");
          NSArray* temp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
          NSArray* tempTwo = [temp valueForKey:@"data"];
          [self loadDates:tempTwo];
@@ -232,8 +242,6 @@
     NSNumber* num = [tuple lastObject];
     data.data = num.doubleValue;
 //    NSLog(@"%@", [data.date isKindOfClass:[NSDate class]]);
-    NSLog(@"%@", data.date);
-    NSLog(@"%f", data.data);
     [self.dataArray addObject:num];
     [self.dateArray addObject:[tuple firstObject]];
 }
@@ -242,13 +250,19 @@
 {
 
     for (NSArray* tuple in temp) {
-        NSLog(@"here");
+        NSString* dateString = [tuple firstObject];
+        NSMutableArray *list = [NSMutableArray array];
+        for (int i=0; i<dateString.length; i++) {
+            [list addObject:[dateString substringWithRange:NSMakeRange(i, 1)]];
+        }
+        NSDateComponents *comps = [[NSDateComponents alloc] init];
+        [comps setDay:[NSString stringWithFormat:@"%@%@", [list objectAtIndex:5], [list objectAtIndex:6]].intValue];
+        [comps setMonth:[NSString stringWithFormat:@"%@%@", [list objectAtIndex:7], [list objectAtIndex:8]].intValue];
+        [comps setYear:[NSString stringWithFormat:@"%@%@%@%@", [list objectAtIndex:0], [list objectAtIndex:1], [list objectAtIndex:2], [list objectAtIndex:3]].intValue];
+        NSDate* temp = [[NSCalendar currentCalendar] dateFromComponents:comps];
         NSNumber* num = [tuple lastObject];
         [self.dataArray addObject:num];
-        [self.dateArray addObject:[tuple firstObject]];
-        NSLog(@"%@", num);
-        NSLog(@"%@", [tuple firstObject]);
-//        NSLog(@"At datapoint %lu, %@,", (unsigned long)[temp indexOfObject:tuple], tuple);
+        [self.dateArray addObject:temp];
     }
     NSNumber* num = [self.dataArray firstObject];
     self.exchangeRate = num.doubleValue;
@@ -257,18 +271,14 @@
 - (IBAction)editingBeganInTextField:(UITextField*)sender
 {
     if (![self.usdTextField.text isEqualToString:@""] && ![self.currencyTextField.text isEqualToString:@""]) {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Cannot execute this conversion." message:@"Must have only one number input, and currency selected" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles: nil];
-        [alert show];
-        NSLog(@"CAN ONLY HAVE ONE INPUT FIELD AT A TIME");
+        NSLog(@"WARNING: CAN ONLY HAVE ONE INPUT FIELD AT A TIME");
         [self setLastValuesInFields:sender];
     }
     NSNumberFormatter* formatter = [NSNumberFormatter new];
     NSNumber* number = [formatter numberFromString:sender.text];
     if (![sender.text isEqualToString:@""] && number == nil)
     {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Can only input number" message:@"Ex (1,2,3..8,9)" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles: nil];
-        [alert show];
-        NSLog(@"HAVE TO USE NUMBER EX (13023.23");
+        NSLog(@"WARNING: HAVE TO USE NUMBER EX (13023.23");
         [self setLastValuesInFields:sender];
     } else {
         if ([sender isEqual:self.usdTextField]) {
@@ -277,7 +287,6 @@
             self.lastCurrencyString = self.currencyTextField.text;
         }
     }
-
 }
 
 - (IBAction)currencyButtonHit:(id)sender
