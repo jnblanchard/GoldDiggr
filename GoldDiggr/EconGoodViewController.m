@@ -141,7 +141,7 @@
 - (NSString*) makeJSONRequestString
 {
     //    return [NSString stringWithFormat:@"http://www.quandl.com/api/v1/datasets/FRED/%@", [self.dict objectForKey: self.currencyButton.titleLabel.text]];
-    return [NSString stringWithFormat:@"http://www.quandl.com/api/v1/datasets/WSJ/NG_TRAN3"];
+    return [NSString stringWithFormat:@"http://www.quandl.com/api/v1/datasets/WORLDBANK/WLD_PHOSROCK.json"];
 }
 
 - (void) loadJSON:(NSString*)apiKey withIndex:(int) index
@@ -157,7 +157,6 @@
              NSLog(@"No data exists");
          }
          NSArray* temp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-         NSLog(@"%@", temp);
          NSArray* tempTwo = [temp valueForKey:@"data"];
          NSLog(@"%@", tempTwo);
          [self loadDates:tempTwo];
