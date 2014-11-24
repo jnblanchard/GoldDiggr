@@ -50,8 +50,8 @@
 		A524C2981A1BFDF700306AD8 /* GoldDiggrTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoldDiggrTests.m; sourceTree = "<group>"; };
 		A524C2A21A1BFE2E00306AD8 /* CurrencyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrencyViewController.h; sourceTree = "<group>"; };
 		A524C2A31A1BFE2E00306AD8 /* CurrencyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrencyViewController.m; sourceTree = "<group>"; };
-		A524C2A51A1BFE5600306AD8 /* EconGoodViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EconGoodViewController.h; path = ../EconGoodViewController.h; sourceTree = "<group>"; };
-		A524C2A61A1BFE5600306AD8 /* EconGoodViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EconGoodViewController.m; path = ../EconGoodViewController.m; sourceTree = "<group>"; };
+		A524C2A51A1BFE5600306AD8 /* EconGoodViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EconGoodViewController.h; sourceTree = "<group>"; };
+		A524C2A61A1BFE5600306AD8 /* EconGoodViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EconGoodViewController.m; sourceTree = "<group>"; };
 		A524C2A81A1C2D4E00306AD8 /* ShinobiCharts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ShinobiCharts.framework; path = Library/Frameworks/ShinobiCharts.framework; sourceTree = DEVELOPER_DIR; };
 		A524C2AA1A1C2D7B00306AD8 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		A524C2AC1A1C2D8400306AD8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
