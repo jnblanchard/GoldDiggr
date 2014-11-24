@@ -82,9 +82,9 @@
     [temp setYear:2014];
     self.maxDate = [[NSCalendar currentCalendar] dateFromComponents:temp];
 
-    self.chart = [[ShinobiChart alloc] initWithFrame:CGRectInset(CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + 69, self.view.frame.size.width, self.view.frame.size.height - 264), 3, 0)];
+    self.chart = [[ShinobiChart alloc] initWithFrame:CGRectInset(CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + 68, self.view.frame.size.width, self.view.frame.size.height - 262), 1, 0)];
     [self.chart setTitle:title];
-    [self.chart applyTheme:[SChartLightTheme new]];
+    [self.chart applyTheme:[SChartDarkTheme new]];
     SChartTitlePosition pos = SChartTitlePositionCenter;
     [self.chart setTitlePosition:pos];
 
