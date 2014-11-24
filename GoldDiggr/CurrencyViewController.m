@@ -361,15 +361,13 @@
 
 - (IBAction)convertButtonPressed:(id)sender
 {
-    if (![self.usdTextField.text isEqualToString:@""] && ![self.currencyTextField.text isEqualToString:@""]) {
-        if ([self.usdTextField.text isEqualToString:@""])
-        {
-            NSLog(@"\n%@ %@, is equivalent to $%00f USD", self.currencyTextField.text, self.exchangeCurrency, self.currencyTextField.text.doubleValue/self.exchangeRate);
-        }
-        if ([self.currencyTextField.text isEqualToString:@""])
-        {
-            NSLog(@"$%@ USD, is equivalent to %00f %@", self.usdTextField.text, self.usdTextField.text.doubleValue*self.exchangeRate, self.exchangeCurrency);
-        }
+    if ([self.usdTextField.text isEqualToString:@""] && ![self.currencyTextField.text isEqualToString:@""])
+    {
+        NSLog(@"\n%@ %@, is equivalent to $%00f USD", self.currencyTextField.text, self.exchangeCurrency, self.currencyTextField.text.doubleValue/self.exchangeRate);
+    }
+    if ([self.currencyTextField.text isEqualToString:@""] && ![self.usdTextField.text isEqualToString:@""])
+    {
+        NSLog(@"$%@ USD, is equivalent to %00f %@", self.usdTextField.text, self.usdTextField.text.doubleValue*self.exchangeRate, self.exchangeCurrency);
     }
     if (![self.currencyButton.titleLabel.text isEqualToString:@"Currency"]) {
         NSLog(@"$1 USD, is equivalent to %00f %@\n", self.exchangeRate, self.exchangeCurrency);
