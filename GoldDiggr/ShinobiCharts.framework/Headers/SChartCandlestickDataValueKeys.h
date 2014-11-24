@@ -1,0 +1,4 @@
+FOUNDATION_EXPORT NSString *const SChartCandlestickKeyOpen;
+FOUNDATION_EXPORT NSString *const SChartCandlestickKeyHigh;
+FOUNDATION_EXPORT NSString *const SChartCandlestickKeyLow;
+FOUNDATION_EXPORT NSString *const SChartCandlestickKeyClose;

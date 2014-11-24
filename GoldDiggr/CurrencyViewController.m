@@ -61,7 +61,6 @@
     self.lastUsdString = @"";
     self.dict = @{@"Canadaian Dollar": @"DEXCAUS", @"Chinese Yuan": @"DEXCHUS", @"Denish Krone": @"DEXDNUS", @"Euro": @"DEXUSEU", @"Hong Kong Dollar": @"DEXHKUS", @"Indian Rupee": @"DEXINUS", @"Japanese Yen": @"DEXJPUS", @"Malaysian Ringgit": @"DEXMAUS", @"Mexican Peso": @"DEXMXUS", @"New Taiwan Dollar": @"DEXTAUS", @"New Zealand Dollar": @"DEXUSNZ", @"Norwegian Krone": @"DEXNOUS", @"Singapore Dollar": @"DEXSIUS", @"South African Rand": @"DEXSFUS", @"South Korean Won": @"DEXKOUS", @"Sri Lankan Rupee": @"DEXSLUS", @"Swedish Krona": @"DEXSDUS", @"Swiss Franc": @"DEXSZUS", @"Thai Baht": @"DEXTHUS", @"Venezuelan Bolivar": @"DEXVZUS"};
     self.currencies = [self.dict allKeys];
-    NSLog(@"%@", self.currencies);
     self.exchangeRate = 2;
     //    [self loadJSON];
 
@@ -363,7 +362,6 @@
 - (IBAction)convertButtonPressed:(id)sender
 {
     if (![self.usdTextField.text isEqualToString:@""] && ![self.currencyTextField.text isEqualToString:@""]) {
-
         if ([self.usdTextField.text isEqualToString:@""])
         {
             NSLog(@"\n%@ %@, is equivalent to $%00f USD", self.currencyTextField.text, self.exchangeCurrency, self.currencyTextField.text.doubleValue/self.exchangeRate);

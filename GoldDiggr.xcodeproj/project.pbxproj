@@ -23,6 +23,7 @@
 		A524C2B11A1C2D9100306AD8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A524C2B01A1C2D9100306AD8 /* OpenGLES.framework */; };
 		A524C2B31A1C2D9A00306AD8 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A524C2B21A1C2D9A00306AD8 /* CoreText.framework */; };
 		A5C704FA1A1C57DB009D8F36 /* Data.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C704F91A1C57DB009D8F36 /* Data.m */; };
+		A5D501BA1A23E3BA00DD7440 /* ShinobiCharts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5D501B91A23E3BA00DD7440 /* ShinobiCharts.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,7 +53,7 @@
 		A524C2A31A1BFE2E00306AD8 /* CurrencyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrencyViewController.m; sourceTree = "<group>"; };
 		A524C2A51A1BFE5600306AD8 /* EconGoodViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EconGoodViewController.h; sourceTree = "<group>"; };
 		A524C2A61A1BFE5600306AD8 /* EconGoodViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EconGoodViewController.m; sourceTree = "<group>"; };
-		A524C2A81A1C2D4E00306AD8 /* ShinobiCharts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ShinobiCharts.framework; path = Library/Frameworks/ShinobiCharts.framework; sourceTree = DEVELOPER_DIR; };
+		A524C2A81A1C2D4E00306AD8 /* ShinobiCharts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ShinobiCharts.framework; path = ../../../../Users/jnblanchard/Desktop/GoldDiggr/GoldDiggr/ShinobiCharts.framework; sourceTree = DEVELOPER_DIR; };
 		A524C2AA1A1C2D7B00306AD8 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		A524C2AC1A1C2D8400306AD8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A524C2AE1A1C2D8A00306AD8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -60,6 +61,7 @@
 		A524C2B21A1C2D9A00306AD8 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		A5C704F81A1C57DB009D8F36 /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
 		A5C704F91A1C57DB009D8F36 /* Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Data.m; sourceTree = "<group>"; };
+		A5D501B91A23E3BA00DD7440 /* ShinobiCharts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShinobiCharts.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 				A524C2B11A1C2D9100306AD8 /* OpenGLES.framework in Frameworks */,
 				A524C2AF1A1C2D8A00306AD8 /* QuartzCore.framework in Frameworks */,
 				A524C2AD1A1C2D8400306AD8 /* Security.framework in Frameworks */,
+				A5D501BA1A23E3BA00DD7440 /* ShinobiCharts.framework in Frameworks */,
 				A524C2AB1A1C2D7B00306AD8 /* libc++.dylib in Frameworks */,
 				A524C2A91A1C2D4E00306AD8 /* ShinobiCharts.framework in Frameworks */,
 			);
@@ -133,6 +136,7 @@
 		A524C2791A1BFDF600306AD8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A5D501B91A23E3BA00DD7440 /* ShinobiCharts.framework */,
 				A524C27A1A1BFDF600306AD8 /* Info.plist */,
 				A524C27B1A1BFDF600306AD8 /* main.m */,
 			);
@@ -386,6 +390,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)/GoldDiggr",
 				);
 				INFOPLIST_FILE = GoldDiggr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -400,6 +405,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)/GoldDiggr",
 				);
 				INFOPLIST_FILE = GoldDiggr/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
