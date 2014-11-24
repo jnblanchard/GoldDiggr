@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
-        <!--Item 2-->
+        <!--Commodities-->
         <scene sceneID="ywS-P4-WAo">
             <objects>
                 <viewController id="ab9-4j-P8L" customClass="EconGoodViewController" sceneMemberID="viewController">
@@ -45,7 +45,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 2" id="ICz-Yw-fWe"/>
+                    <tabBarItem key="tabBarItem" title="Commodities" image="commodity" id="ICz-Yw-fWe"/>
                     <connections>
                         <outlet property="economicGoodButton" destination="vdI-8p-reS" id="4Wq-Gm-Um9"/>
                         <outlet property="usdTextField" destination="jb5-fr-4lv" id="uzI-Dy-dy3"/>
@@ -198,7 +198,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="currency" width="30" height="30"/>
+        <image name="commodity" width="26" height="26"/>
+        <image name="currency" width="20" height="20"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

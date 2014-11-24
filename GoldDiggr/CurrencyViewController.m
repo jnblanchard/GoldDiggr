@@ -27,6 +27,8 @@
 @property NSMutableArray* dateArray;
 @property NSDate* minDate;
 @property NSDate* maxDate;
+@property int max;
+@property int min;
 @property NSDictionary* dict;
 @property NSString* lastUsdString;
 @property NSString* lastCurrencyString;
@@ -42,6 +44,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.tabBarController.tabBar.barTintColor = [UIColor blackColor];
+    [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
     self.dataArray = [NSMutableArray new];
     self.dateArray = [NSMutableArray new];
     self.currencyButton.clipsToBounds = YES;
@@ -66,6 +70,7 @@
 
 - (void) makeChart:(NSString*) title
 {
+    NSLog(@"Making Chart with title: %@", title);
     NSDateComponents *comps = [[NSDateComponents alloc] init];
     [comps setDay:1];
     [comps setMonth:1];
@@ -77,7 +82,6 @@
     [temp setMonth:12];
     [temp setYear:2014];
     self.maxDate = [[NSCalendar currentCalendar] dateFromComponents:temp];
-    NSLog(@" Max DATE - %@", self.maxDate);
 
     self.chart = [[ShinobiChart alloc] initWithFrame:CGRectInset(CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + 69, self.view.frame.size.width, self.view.frame.size.height - 264), 3, 0)];
     [self.chart setTitle:title];
@@ -98,11 +102,12 @@
         rangeY = [[SChartNumberRange alloc]initWithMinimum:[NSNumber numberWithInt:1] andMaximum:[NSNumber numberWithInt:25]];
         yAxis = [[SChartNumberAxis alloc] initWithRange:rangeY];
     } else {
-        NSString* min = [self.dateArray lastObject];
-        NSString* max = [self.dateArray firstObject];
+        NSDate* min = [self.dateArray lastObject];
+        NSDate* max = [self.dateArray firstObject];
         dateRange = [[SChartDateRange alloc]initWithDateMinimum:min andDateMaximum:max];
         xAxis = [[SChartDateTimeAxis alloc]initWithRange:dateRange];
-        rangeY = [[SChartNumberRange alloc]initWithMinimum:[NSNumber numberWithInt:1] andMaximum:[NSNumber numberWithInt:150]];
+        int numMax = self.max;
+        rangeY = [[SChartNumberRange alloc]initWithMinimum:[NSNumber numberWithInt:1] andMaximum:[NSNumber numberWithInt:self.max]];
         yAxis = [[SChartNumberAxis alloc] initWithRange:rangeY];
     }
 
@@ -149,7 +154,7 @@
     pointStyle.color = [UIColor greenColor];
     pointStyle.colorBelowBaseline = [UIColor redColor];
     pointStyle.showPoints = YES;
-    [pointStyle setRadius:[NSNumber numberWithInt:3]];
+    [pointStyle setRadius:[NSNumber numberWithInt:2]];
     [pointStyle setInnerRadius:[NSNumber numberWithInt:1]];
     style.pointStyle = pointStyle;
     [style setLineColor:[UIColor greenColor]];
@@ -248,7 +253,7 @@
 
 - (void) loadDates:(NSArray*) temp
 {
-
+    self.max = 1;
     for (NSArray* tuple in temp) {
         NSString* dateString = [tuple firstObject];
         NSMutableArray *list = [NSMutableArray array];
@@ -260,8 +265,11 @@
         [comps setMonth:[NSString stringWithFormat:@"%@%@", [list objectAtIndex:7], [list objectAtIndex:8]].intValue];
         [comps setYear:[NSString stringWithFormat:@"%@%@%@%@", [list objectAtIndex:0], [list objectAtIndex:1], [list objectAtIndex:2], [list objectAtIndex:3]].intValue];
         NSDate* temp = [[NSCalendar currentCalendar] dateFromComponents:comps];
-        NSNumber* num = [tuple lastObject];
-        [self.dataArray addObject:num];
+        NSNumber* tempNum = [tuple lastObject];
+        [self.dataArray addObject:tempNum];
+        if (tempNum.intValue > self.max-5) {
+            self.max = tempNum.intValue+5;
+        }
         [self.dateArray addObject:temp];
     }
     NSNumber* num = [self.dataArray firstObject];
@@ -307,8 +315,8 @@
     self.dateArray = [NSMutableArray new];
     self.dataArray = [NSMutableArray new];
     [self.currencyButton setTitle:[self.currencies objectAtIndex:row] forState:UIControlStateNormal];
-    [self loadJSON:[self.dict valueForKey:[self.currencies objectAtIndex:row]]withIndex:row];
     [self.chart removeFromSuperview];
+    [self loadJSON:[self.dict valueForKey:[self.currencies objectAtIndex:row]]withIndex:row];
     [self.view sendSubviewToBack:self.chart];
 }
 
@@ -354,13 +362,22 @@
 
 - (IBAction)convertButtonPressed:(id)sender
 {
-    if ([self.usdTextField.text isEqualToString:@""])
-    {
-        NSLog(@"%@ %@, is equivalent to $%00f USD", self.currencyTextField.text, self.exchangeCurrency, self.currencyTextField.text.doubleValue/self.exchangeRate);
+    if (![self.usdTextField.text isEqualToString:@""] && ![self.currencyTextField.text isEqualToString:@""]) {
+
+        if ([self.usdTextField.text isEqualToString:@""])
+        {
+            NSLog(@"\n%@ %@, is equivalent to $%00f USD", self.currencyTextField.text, self.exchangeCurrency, self.currencyTextField.text.doubleValue/self.exchangeRate);
+        }
+        if ([self.currencyTextField.text isEqualToString:@""])
+        {
+            NSLog(@"$%@ USD, is equivalent to %00f %@", self.usdTextField.text, self.usdTextField.text.doubleValue*self.exchangeRate, self.exchangeCurrency);
+        }
     }
-    if ([self.currencyTextField.text isEqualToString:@""])
-    {
-        NSLog(@"$%@ USD, is equivalent to %00f %@", self.usdTextField.text, self.usdTextField.text.doubleValue*self.exchangeRate, self.exchangeCurrency);
+    if (![self.currencyButton.titleLabel.text isEqualToString:@"Currency"]) {
+        NSLog(@"$1 USD, is equivalent to %00f %@\n", self.exchangeRate, self.exchangeCurrency);
+        NSLog(@"------------------------------------------");
+    } else {
+        NSLog(@"No currency to convert to");
     }
 }
 
