@@ -24,18 +24,36 @@
 @property NSMutableArray* dataArray;
 @property NSMutableArray* dateArray;
 @property NSDictionary* dict;
+@property int year;
+@property int max;
+@property (weak, nonatomic) IBOutlet UIButton *printDataButton;
+
 @end
 
 @implementation EconGoodViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.goods = @[@"Gold",@"Silver",@"AZ",@"AR",@"CA",@"CO",@"CT",@"DE",@"FL",@"GA",@"HI",@"ID",@"IL",@"IN",@"IA",@"KS",@"KP",@"LA",@"ME",@"MD",@"MA",@"MI",@"MN",@"MS",@"MO",@"MT",@"NE",@"NV",@"NH",@"NJ",@"NM",@"NY"];
-    [self loadJSON:@"Potassium Choloride" withIndex:1];
+    self.year = 1983;
+    self.max = 0;
+    self.economicGoodButton.clipsToBounds = YES;
+    self.economicGoodButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.economicGoodButton.layer.borderWidth = 2.0f;
+    self.economicGoodButton.layer.cornerRadius = 30;
+    self.printDataButton.clipsToBounds = YES;
+    self.printDataButton.layer.borderColor = [UIColor blackColor].CGColor;
+    self.printDataButton.layer.borderWidth = 2.0f;
+    self.printDataButton.layer.cornerRadius = 10;
+    self.dict = @{@"Gold": @"WORLDBANK/WLD_GOLD", @"Silver": @"WORLDBANK/WLD_SILVER", @"Barley": @"WORLDBANK/WLD_BARLEY", @"Corn": @"WORLDBANK/WLD_BARLEY", @"Wheat": @"WORLDBANK/WLD_SOYBEAN_OIL", @"Tobacco": @"WORLDBANK/WLD_TOBAC_US", @"Bananas": @"WORLDBANK/WLD_BANANA_US", @"Groundnut oil": @"WORLDBANK/WLD_GRNUT_OIL", @"Plywood": @"WORLDBANK/WLD_PLYWOOD", @"Copra": @"WORLDBANK/WLD_COPRA", @"Potassium Chloride": @"WORLDBANK/WLD_POTASH", @"US$ per liter gasoline": @"WORLDBANK/ECS_EP_PMP_SGAS_CD", @"Flour": @"WSJ/FLOUR", @"Milk": @"WSJ/MILK", @"Cheddar Cheese per barrel": @"WSJ/CHEESE_BRL", @"Beef": @"ODA/PBEEF_USD", @"Pork": @"ODA/PPORK_USD", @"Salmon": @"ODA/PSALM_USD", @"Shrimp": @"ODA/PSHRI_USD", @"Natural Gas": @"FRED/GASPRICE"};
+    self.goods = [self.dict allKeys];
+    [self makeChart:@"Placeholder Dataset"];
+    self.exchangeRate = 2;
+//    [self loadJSON:@"Potassium Choloride" withIndex:1];
 }
 
 - (void) makeChart:(NSString*) title
 {
+    NSLog(@"Making Chart with title: %@", title);
     NSDateComponents *comps = [[NSDateComponents alloc] init];
     [comps setDay:1];
     [comps setMonth:1];
@@ -47,10 +65,10 @@
     [temp setMonth:12];
     [temp setYear:2014];
     self.maxDate = [[NSCalendar currentCalendar] dateFromComponents:temp];
-    //185
-    self.chart = [[ShinobiChart alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + 40, self.view.frame.size.width, self.view.frame.size.height - 200)];
+
+    self.chart = [[ShinobiChart alloc] initWithFrame:CGRectInset(CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + 68, self.view.frame.size.width, self.view.frame.size.height - 231), 1, 0)];
     [self.chart setTitle:title];
-    [self.chart applyTheme:[SChartLightTheme new]];
+    [self.chart applyTheme:[SChartDarkTheme new]];
     SChartTitlePosition pos = SChartTitlePositionCenter;
     [self.chart setTitlePosition:pos];
 
@@ -67,15 +85,18 @@
         rangeY = [[SChartNumberRange alloc]initWithMinimum:[NSNumber numberWithInt:1] andMaximum:[NSNumber numberWithInt:25]];
         yAxis = [[SChartNumberAxis alloc] initWithRange:rangeY];
     } else {
-        dateRange = [[SChartDateRange alloc]initWithDateMinimum:[self.dateArray objectAtIndex:self.dateArray.count - 1] andDateMaximum:[self.dateArray objectAtIndex:0]];
+        NSDate* min = [self.dateArray lastObject];
+        NSDate* max = [self.dateArray firstObject];
+        dateRange = [[SChartDateRange alloc]initWithDateMinimum:min andDateMaximum:max];
         xAxis = [[SChartDateTimeAxis alloc]initWithRange:dateRange];
-        rangeY = [[SChartNumberRange alloc]initWithMinimum:[NSNumber numberWithInt:1] andMaximum:[NSNumber numberWithInt:150]];
+        rangeY = [[SChartNumberRange alloc]initWithMinimum:[NSNumber numberWithInt:1] andMaximum:[NSNumber numberWithInt:25]];
         yAxis = [[SChartNumberAxis alloc] initWithRange:rangeY];
     }
 
     self.chart.xAxis = xAxis;
     self.chart.yAxis = yAxis;
-
+    self.chart.xAxis.titleLabel.text = @"Year";
+    self.chart.yAxis.titleLabel.text = [NSString stringWithFormat:@"USD Price", self.exchangeRate];
     [self.view addSubview:self.chart];
 
     self.chart.delegate = self;
@@ -101,7 +122,7 @@
 -(SChartSeries *)sChart:(ShinobiChart *)chart seriesAtIndex:(NSInteger)index
 {
     SChartLineSeries *lineSeries = [[SChartLineSeries alloc] init];
-    lineSeries.baseline = [NSNumber numberWithInt:10];
+    lineSeries.baseline = [NSNumber numberWithInt:1];
 
     SChartLineSeriesStyle* style = [[SChartLineSeriesStyle alloc] init];
     [style setLineWidth:[NSNumber numberWithInt:3]];
@@ -109,7 +130,7 @@
     pointStyle.color = [UIColor greenColor];
     pointStyle.colorBelowBaseline = [UIColor redColor];
     pointStyle.showPoints = YES;
-    [pointStyle setRadius:[NSNumber numberWithInt:3]];
+    [pointStyle setRadius:[NSNumber numberWithInt:4]];
     [pointStyle setInnerRadius:[NSNumber numberWithInt:1]];
     style.pointStyle = pointStyle;
     [style setLineColor:[UIColor greenColor]];
@@ -125,10 +146,11 @@
         NSDateComponents *comps = [[NSDateComponents alloc] init];
         [comps setDay:1];
         [comps setMonth:1];
-        [comps setYear:2005];
+        [comps setYear:self.year];
         NSDate* temp = [[NSCalendar currentCalendar] dateFromComponents:comps];
         datapoint.xValue = temp; // date
         datapoint.yValue = [NSNumber numberWithInt:dataIndex+2]; // price
+        self.year+=2;
     } else {
         datapoint.xValue = [self.dateArray objectAtIndex:dataIndex];
         datapoint.yValue = [self.dataArray objectAtIndex:dataIndex];
@@ -141,7 +163,7 @@
 - (NSString*) makeJSONRequestString
 {
     //    return [NSString stringWithFormat:@"http://www.quandl.com/api/v1/datasets/FRED/%@", [self.dict objectForKey: self.currencyButton.titleLabel.text]];
-    return [NSString stringWithFormat:@"http://www.quandl.com/api/v1/datasets/WORLDBANK/WLD_PHOSROCK.json"];
+    return [NSString stringWithFormat:@"http://www.quandl.com/api/v1/datasets/%@.json", [self.dict objectForKeyedSubscript:self.economicGoodButton.titleLabel.text]];
 }
 
 - (void) loadJSON:(NSString*)apiKey withIndex:(int) index
@@ -157,6 +179,7 @@
              NSLog(@"No data exists");
          }
          NSArray* temp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+         NSLog(@"%@", temp);
          NSArray* tempTwo = [temp valueForKey:@"data"];
          NSLog(@"%@", tempTwo);
          [self loadDates:tempTwo];
@@ -177,15 +200,23 @@
 {
 
     for (NSArray* tuple in temp) {
-        NSLog(@"here");
-        NSNumber* num = [tuple lastObject];
-        [self.dataArray addObject:num];
-        [self.dateArray addObject:[tuple firstObject]];
-        NSLog(@"%@", num);
-        NSLog(@"%@", [tuple firstObject]);
-        //        NSLog(@"At datapoint %lu, %@,", (unsigned long)[temp indexOfObject:tuple], tuple);
+        NSString* dateString = [tuple firstObject];
+        NSMutableArray *list = [NSMutableArray array];
+        for (int i=0; i<dateString.length; i++) {
+            [list addObject:[dateString substringWithRange:NSMakeRange(i, 1)]];
+        }
+        NSDateComponents *comps = [[NSDateComponents alloc] init];
+        [comps setDay:[NSString stringWithFormat:@"%@%@", [list objectAtIndex:5], [list objectAtIndex:6]].intValue];
+        [comps setMonth:[NSString stringWithFormat:@"%@%@", [list objectAtIndex:7], [list objectAtIndex:8]].intValue];
+        [comps setYear:[NSString stringWithFormat:@"%@%@%@%@", [list objectAtIndex:0], [list objectAtIndex:1], [list objectAtIndex:2], [list objectAtIndex:3]].intValue];
+        NSDate* temp = [[NSCalendar currentCalendar] dateFromComponents:comps];
+        NSNumber* tempNum = [tuple lastObject];
+        [self.dataArray addObject:tempNum];
+        if (tempNum.intValue > self.max-5) {
+            self.max = tempNum.intValue+5;
+        }
+        [self.dateArray addObject:temp];
     }
-    [self.chart reloadData];
     NSNumber* num = [self.dataArray firstObject];
     self.exchangeRate = num.doubleValue;
 }
@@ -204,6 +235,11 @@
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
     [self.economicGoodButton setTitle:[self.goods objectAtIndex:row] forState:UIControlStateNormal];
+    self.dateArray = [NSMutableArray new];
+    self.dataArray = [NSMutableArray new];
+    [self.chart removeFromSuperview];
+    [self loadJSON:[self.dict valueForKey:[self.goods objectAtIndex:row]]withIndex:row];
+    [self.view sendSubviewToBack:self.chart];
 }
 
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
@@ -221,15 +257,16 @@
     [self.maskView setBackgroundColor:[UIColor clearColor]];
 
     [self.view addSubview:self.maskView];
-    self._providerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - 344, self.view.bounds.size.width, 44)];
+    self._providerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - 294, self.view.bounds.size.width, 44)];
 
     UIBarButtonItem *done = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissActionSheet:)];
+    [done setTintColor:[UIColor yellowColor]];
     self._providerToolbar.items = @[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil], done];
     [self._providerToolbar setTintColor:[UIColor whiteColor]];
-    self._providerToolbar.barStyle = UIBarStyleBlack;
+    self._providerToolbar.barStyle = UIBarStyleBlackOpaque;
     [self.view addSubview:self._providerToolbar];
 
-    self._providerPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - 300, 0, 0)];
+    self._providerPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-250, 0, 0)];
     self._providerPickerView.backgroundColor = [UIColor whiteColor];
     self._providerPickerView.showsSelectionIndicator = YES;
     self._providerPickerView.dataSource = self;

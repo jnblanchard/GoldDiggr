@@ -37,6 +37,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *convertButton;
 @property ShinobiChart* chartTwo;
 @property NSString* exchangeCurrency;
+@property int year;
 @end
 
 @implementation CurrencyViewController
@@ -44,6 +45,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.year = 1993;
     self.tabBarController.tabBar.barTintColor = [UIColor blackColor];
     [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
     self.dataArray = [NSMutableArray new];
@@ -145,7 +147,7 @@
 -(SChartSeries *)sChart:(ShinobiChart *)chart seriesAtIndex:(NSInteger)index
 {
     SChartLineSeries *lineSeries = [[SChartLineSeries alloc] init];
-    lineSeries.baseline = [NSNumber numberWithInt:10];
+    lineSeries.baseline = [NSNumber numberWithInt:1];
 
     SChartLineSeriesStyle* style = [[SChartLineSeriesStyle alloc] init];
     [style setLineWidth:[NSNumber numberWithInt:3]];
@@ -153,7 +155,7 @@
     pointStyle.color = [UIColor greenColor];
     pointStyle.colorBelowBaseline = [UIColor redColor];
     pointStyle.showPoints = YES;
-    [pointStyle setRadius:[NSNumber numberWithInt:2]];
+    [pointStyle setRadius:[NSNumber numberWithInt:4]];
     [pointStyle setInnerRadius:[NSNumber numberWithInt:1]];
     style.pointStyle = pointStyle;
     [style setLineColor:[UIColor greenColor]];
@@ -169,10 +171,11 @@
         NSDateComponents *comps = [[NSDateComponents alloc] init];
         [comps setDay:1];
         [comps setMonth:1];
-        [comps setYear:2005];
+        [comps setYear:self.year];
         NSDate* temp = [[NSCalendar currentCalendar] dateFromComponents:comps];
         datapoint.xValue = temp; // date
-        datapoint.yValue = [NSNumber numberWithInt:dataIndex+2]; // price
+        datapoint.yValue = [NSNumber numberWithInt:dataIndex+5]; // price
+        self.year+=2;
     } else {
         datapoint.xValue = [self.dateArray objectAtIndex:dataIndex];
         datapoint.yValue = [self.dataArray objectAtIndex:dataIndex];
