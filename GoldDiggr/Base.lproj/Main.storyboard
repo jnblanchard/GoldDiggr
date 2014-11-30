@@ -127,7 +127,7 @@
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Stocks" id="Srw-n8-Ftg"/>
+                    <tabBarItem key="tabBarItem" title="Stocks" image="stock" id="Srw-n8-Ftg"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S0D-zS-Fyl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -285,6 +285,7 @@
     <resources>
         <image name="commodity" width="26" height="26"/>
         <image name="currency" width="20" height="20"/>
+        <image name="stock" width="30" height="30"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

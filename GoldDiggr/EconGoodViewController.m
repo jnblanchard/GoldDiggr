@@ -187,6 +187,7 @@
          [self._providerPickerView removeFromSuperview];
          [self._providerToolbar removeFromSuperview];
          [self makeChart:[self setChartTitle:[self.goods objectAtIndex:index]]];
+         [self.chart reloadData];
 
      }];
 }

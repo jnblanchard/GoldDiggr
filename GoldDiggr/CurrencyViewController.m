@@ -61,12 +61,19 @@
     self.exchangeCurrency = @"Currency";
     self.lastCurrencyString = @"";
     self.lastUsdString = @"";
-    self.dict = @{@"Canadaian Dollar": @"DEXCAUS", @"Chinese Yuan": @"DEXCHUS", @"Denish Krone": @"DEXDNUS", @"Euro": @"DEXUSEU", @"Hong Kong Dollar": @"DEXHKUS", @"Indian Rupee": @"DEXINUS", @"Japanese Yen": @"DEXJPUS", @"Malaysian Ringgit": @"DEXMAUS", @"Mexican Peso": @"DEXMXUS", @"New Taiwan Dollar": @"DEXTAUS", @"New Zealand Dollar": @"DEXUSNZ", @"Norwegian Krone": @"DEXNOUS", @"Singapore Dollar": @"DEXSIUS", @"South African Rand": @"DEXSFUS", @"South Korean Won": @"DEXKOUS", @"Sri Lankan Rupee": @"DEXSLUS", @"Swedish Krona": @"DEXSDUS", @"Swiss Franc": @"DEXSZUS", @"Thai Baht": @"DEXTHUS", @"Venezuelan Bolivar": @"DEXVZUS"};
+    self.dict = @{@"Canadaian Dollar": @"DEXCAUS", @"Chinese Yuan": @"DEXCHUS", @"Denish Krone": @"DEXDNUS", @"Euro": @"DEXUSEU", @"Hong Kong Dollar": @"DEXHKUS", @"Indian Rupee": @"DEXINUS", @"Japanese Yen": @"DEXJPUS", @"Malaysian Ringgit": @"DEXMAUS", @"Mexican Peso": @"DEXMXUS", @"New Taiwan Dollar": @"DEXTAUS", @"New Zealand Dollar": @"DEXUSNZ", @"Norwegian Krone": @"DEXNOUS", @"Singapore Dollar": @"DEXSIUS", @"South African Rand": @"DEXSFUS", @"South Korean Won": @"DEXKOUS", @"Sri Lankan Rupee": @"DEXSLUS", @"Swedish Krona": @"DEXSDUS", @"Swiss Franc": @"DEXSZUS", @"Venezuelan Bolivar": @"DEXVZUS", @"Thai Baht": @"DEXTHUS"};
     self.currencies = [self.dict allKeys];
     self.exchangeRate = 2;
     //    [self loadJSON];
 
     [self makeChart:@"Placeholder Dataset"];
+    self.dateArray = [NSMutableArray new];
+    self.dataArray = [NSMutableArray new];
+    int indexC = self.currencies.count-3;
+    [self.currencyButton setTitle:[self.currencies objectAtIndex:indexC] forState:UIControlStateNormal];
+    [self.chart removeFromSuperview];
+    [self loadJSON:[self.dict valueForKey:[self.currencies objectAtIndex:indexC]]withIndex:indexC];
+    [self.view sendSubviewToBack:self.chart];
 }
 
 - (void) makeChart:(NSString*) title
@@ -364,16 +371,25 @@
 
 - (IBAction)convertButtonPressed:(id)sender
 {
+    UIColor *color = [UIColor redColor];
     if ([self.usdTextField.text isEqualToString:@""] && ![self.currencyTextField.text isEqualToString:@""])
     {
-        NSLog(@"\n%@ %@, is equivalent to $%00f USD", self.currencyTextField.text, self.exchangeCurrency, self.currencyTextField.text.doubleValue/self.exchangeRate);
+        NSLog(@"\n%@ %@, is equivalent to $%.02f USD", self.currencyTextField.text, self.exchangeCurrency, self.currencyTextField.text.doubleValue/self.exchangeRate);
+        self.usdTextField.attributedPlaceholder =
+        [[NSAttributedString alloc]
+         initWithString:[NSString stringWithFormat:@"%.02f", self.currencyTextField.text.doubleValue/self.exchangeRate]
+         attributes:@{NSForegroundColorAttributeName:color}];
     }
     if ([self.currencyTextField.text isEqualToString:@""] && ![self.usdTextField.text isEqualToString:@""])
     {
-        NSLog(@"$%@ USD, is equivalent to %00f %@", self.usdTextField.text, self.usdTextField.text.doubleValue*self.exchangeRate, self.exchangeCurrency);
+        NSLog(@"$%@ USD, is equivalent to %.02f %@", self.usdTextField.text, self.usdTextField.text.doubleValue*self.exchangeRate, self.exchangeCurrency);
+        self.currencyTextField.attributedPlaceholder =
+        [[NSAttributedString alloc]
+         initWithString:[NSString stringWithFormat:@"%.02f", self.usdTextField.text.doubleValue*self.exchangeRate]
+         attributes:@{NSForegroundColorAttributeName:color}];
     }
     if (![self.currencyButton.titleLabel.text isEqualToString:@"Currency"]) {
-        NSLog(@"$1 USD, is equivalent to %00f %@\n", self.exchangeRate, self.exchangeCurrency);
+        NSLog(@"$1 USD, is equivalent to %.02f %@\n", self.exchangeRate, self.exchangeCurrency);
         NSLog(@"------------------------------------------");
     } else {
         NSLog(@"No currency to convert to");
