@@ -27,15 +27,21 @@
 @property int year;
 @property int max;
 @property (weak, nonatomic) IBOutlet UIButton *printDataButton;
-
+@property NSArray* items;
+@property int theIndex;
+@property NSString* lastText;
 @end
 
 @implementation EconGoodViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.lastText = @"";
     self.year = 1983;
     self.max = 0;
+    self.dataArray = [NSMutableArray new];
+    self.dateArray = [NSMutableArray new];
+    self.items = @[@"Cotton", @"Milk", @"Sugar"];
     self.economicGoodButton.clipsToBounds = YES;
     self.economicGoodButton.layer.borderColor = [UIColor blackColor].CGColor;
     self.economicGoodButton.layer.borderWidth = 2.0f;
@@ -44,9 +50,12 @@
     self.printDataButton.layer.borderColor = [UIColor blackColor].CGColor;
     self.printDataButton.layer.borderWidth = 2.0f;
     self.printDataButton.layer.cornerRadius = 10;
-    self.dict = @{@"Gold": @"WORLDBANK/WLD_GOLD", @"Silver": @"WORLDBANK/WLD_SILVER", @"Barley": @"WORLDBANK/WLD_BARLEY", @"Corn": @"WORLDBANK/WLD_BARLEY", @"Wheat": @"WORLDBANK/WLD_SOYBEAN_OIL", @"Tobacco": @"WORLDBANK/WLD_TOBAC_US", @"Bananas": @"WORLDBANK/WLD_BANANA_US", @"Groundnut oil": @"WORLDBANK/WLD_GRNUT_OIL", @"Plywood": @"WORLDBANK/WLD_PLYWOOD", @"Copra": @"WORLDBANK/WLD_COPRA", @"Potassium Chloride": @"WORLDBANK/WLD_POTASH", @"US$ per liter gasoline": @"WORLDBANK/ECS_EP_PMP_SGAS_CD", @"Flour": @"WSJ/FLOUR", @"Milk": @"WSJ/MILK", @"Cheddar Cheese per barrel": @"WSJ/CHEESE_BRL", @"Beef": @"ODA/PBEEF_USD", @"Pork": @"ODA/PPORK_USD", @"Salmon": @"ODA/PSALM_USD", @"Shrimp": @"ODA/PSHRI_USD", @"Natural Gas": @"FRED/GASPRICE"};
+    self.dict = @{@"Milk per lb": @"WSJ/MILK", @"Cotton per lb": @"ODA/PCOTTIND_USD", @"Sugar per lb": @"ODA/PSUGAUSA_USD"};
     self.goods = [self.dict allKeys];
-    [self makeChart:@"Placeholder Dataset"];
+//    [self makeChart:@"Placeholder Dataset"];
+    self.theIndex = 2;
+    [self.economicGoodButton setTitle:[self.goods objectAtIndex:self.theIndex] forState:UIControlStateNormal];
+    [self loadJSON:[self.dict valueForKey:[self.goods objectAtIndex:self.theIndex]]withIndex:self.theIndex];
     self.exchangeRate = 2;
 //    [self loadJSON:@"Potassium Choloride" withIndex:1];
 }
@@ -89,16 +98,15 @@
         NSDate* max = [self.dateArray firstObject];
         dateRange = [[SChartDateRange alloc]initWithDateMinimum:min andDateMaximum:max];
         xAxis = [[SChartDateTimeAxis alloc]initWithRange:dateRange];
-        rangeY = [[SChartNumberRange alloc]initWithMinimum:[NSNumber numberWithInt:1] andMaximum:[NSNumber numberWithInt:25]];
+        rangeY = [[SChartNumberRange alloc]initWithMinimum:[NSNumber numberWithInt:1] andMaximum:[NSNumber numberWithInt:self.max]];
         yAxis = [[SChartNumberAxis alloc] initWithRange:rangeY];
     }
 
     self.chart.xAxis = xAxis;
     self.chart.yAxis = yAxis;
     self.chart.xAxis.titleLabel.text = @"Year";
-    self.chart.yAxis.titleLabel.text = [NSString stringWithFormat:@"USD Price", self.exchangeRate];
+    self.chart.yAxis.titleLabel.text = [NSString stringWithFormat:@"USD cents", self.exchangeRate];
     [self.view addSubview:self.chart];
-
     self.chart.delegate = self;
     self.chart.datasource = self;
 }
@@ -163,12 +171,11 @@
 - (NSString*) makeJSONRequestString
 {
     //    return [NSString stringWithFormat:@"http://www.quandl.com/api/v1/datasets/FRED/%@", [self.dict objectForKey: self.currencyButton.titleLabel.text]];
-    return [NSString stringWithFormat:@"http://www.quandl.com/api/v1/datasets/%@.json", [self.dict objectForKeyedSubscript:self.economicGoodButton.titleLabel.text]];
+    return [NSString stringWithFormat:@"http://www.quandl.com/api/v1/datasets/%@?%@", [self.dict objectForKey:self.economicGoodButton.titleLabel.text], [NSString stringWithFormat:@"auth_token=9unyjxegjy4_K2pG1LLx"]];
 }
 
 - (void) loadJSON:(NSString*)apiKey withIndex:(int) index
 {
-
     NSURLRequest * request = [NSURLRequest requestWithURL:[NSURL URLWithString:[self makeJSONRequestString]]];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *rsp, NSData *data, NSError *connectionError)
      {
@@ -179,9 +186,9 @@
              NSLog(@"No data exists");
          }
          NSArray* temp = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-         NSLog(@"%@", temp);
+//         NSLog(@"%@", temp);
          NSArray* tempTwo = [temp valueForKey:@"data"];
-         NSLog(@"%@", tempTwo);
+//         NSLog(@"%@", tempTwo);
          [self loadDates:tempTwo];
          [self.maskView removeFromSuperview];
          [self._providerPickerView removeFromSuperview];
@@ -199,7 +206,7 @@
 
 - (void) loadDates:(NSArray*) temp
 {
-
+    self.max = 0;
     for (NSArray* tuple in temp) {
         NSString* dateString = [tuple firstObject];
         NSMutableArray *list = [NSMutableArray array];
@@ -228,6 +235,12 @@
     [self createPickerView];
 }
 
+- (IBAction)eraseButtonPressed:(id)sender
+{
+    self.usdTextField.text = @"";
+    self.lastText = @"";
+}
+
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
     return 1;
@@ -235,12 +248,12 @@
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
+    self.theIndex = row;
+    [self.chart removeFromSuperview];
     [self.economicGoodButton setTitle:[self.goods objectAtIndex:row] forState:UIControlStateNormal];
     self.dateArray = [NSMutableArray new];
     self.dataArray = [NSMutableArray new];
-    [self.chart removeFromSuperview];
     [self loadJSON:[self.dict valueForKey:[self.goods objectAtIndex:row]]withIndex:row];
-    [self.view sendSubviewToBack:self.chart];
 }
 
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
@@ -277,6 +290,15 @@
 
 }
 
+- (IBAction)convertButtonPressed:(id)sender
+{
+    if (![self.usdTextField.text isEqualToString:@""]) {
+        double convertToCents = self.usdTextField.text.intValue * 100;
+        double conversion = (double)convertToCents/(double)self.exchangeRate;
+        NSLog(@"$%@ is %0.2f lbs of %@", self.usdTextField.text, conversion, [self.items objectAtIndex:self.theIndex]);
+    }
+}
+
 - (void)dismissActionSheet:(id)sender{
     [self.maskView removeFromSuperview];
     [self._providerPickerView removeFromSuperview];
@@ -289,7 +311,12 @@
     NSNumber* number = [formatter numberFromString:sender.text];
     if (![sender.text isEqualToString:@""] && number != nil)
     {
-        NSLog(@"$%@ USD is equal to %fOZ of %@", self.usdTextField.text, self.usdTextField.text.doubleValue*self.exchangeRate,self.economicGoodButton.titleLabel.text );
+        self.lastText = self.usdTextField.text;
+    }
+    if (![sender.text isEqualToString:@""] && number == nil)
+    {
+        self.usdTextField.text = self.lastText;
+        NSLog(@"Input must be numbers only Ex (32.125324)");
     }
 }
 

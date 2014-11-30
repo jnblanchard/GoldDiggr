@@ -66,7 +66,7 @@
     self.exchangeRate = 2;
     //    [self loadJSON];
 
-    [self makeChart:@"Placeholder Dataset"];
+//    [self makeChart:@"Placeholder Dataset"];
     self.dateArray = [NSMutableArray new];
     self.dataArray = [NSMutableArray new];
     int indexC = self.currencies.count-3;
@@ -326,7 +326,6 @@
     [self.currencyButton setTitle:[self.currencies objectAtIndex:row] forState:UIControlStateNormal];
     [self.chart removeFromSuperview];
     [self loadJSON:[self.dict valueForKey:[self.currencies objectAtIndex:row]]withIndex:row];
-    [self.view sendSubviewToBack:self.chart];
 }
 
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component

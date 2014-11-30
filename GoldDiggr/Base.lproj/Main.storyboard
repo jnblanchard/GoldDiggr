@@ -17,13 +17,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jb5-fr-4lv">
-                                <rect key="frame" x="11" y="445" width="97" height="30"/>
+                                <rect key="frame" x="6" y="445" width="107" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
-                                    <action selector="checkTextField:" destination="ab9-4j-P8L" eventType="valueChanged" id="FxL-UG-76P"/>
-                                    <action selector="checkTextField:" destination="ab9-4j-P8L" eventType="editingDidEnd" id="oyb-qD-dKJ"/>
-                                    <action selector="checkTextField:" destination="ab9-4j-P8L" eventType="editingDidEndOnExit" id="xn9-Mq-QKQ"/>
+                                    <action selector="checkTextField:" destination="ab9-4j-P8L" eventType="editingChanged" id="upp-xp-eIY"/>
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vdI-8p-reS">
@@ -69,12 +67,23 @@
                                 <rect key="frame" x="0.0" y="483" width="320" height="30"/>
                                 <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="IowanOldStyle-Bold" family="Iowan Old Style" pointSize="28"/>
-                                <state key="normal" title="Print Data">
+                                <state key="normal" title="Print Conversion">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="convertButtonPressed:" destination="uHq-V5-Gei" eventType="touchUpInside" id="ATm-ca-GVd"/>
+                                    <action selector="convertButtonPressed:" destination="ab9-4j-P8L" eventType="touchUpInside" id="CZw-34-7bo"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G8M-OK-hEo">
+                                <rect key="frame" x="75" y="445" width="51" height="30"/>
+                                <state key="normal" title="X">
+                                    <color key="titleColor" red="1" green="0.12889330169999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="eraseButtonPressed:" destination="ab9-4j-P8L" eventType="touchUpInside" id="WQb-8o-HFr"/>
                                 </connections>
                             </button>
                         </subviews>
